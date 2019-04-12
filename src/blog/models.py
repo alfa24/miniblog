@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Blog(models.Model):
-    author = models.OneToOneField(User, verbose_name="Автор")
+    author = models.OneToOneField(User, verbose_name="Автор", on_delete=models.CASCADE)
     name = models.TextField(verbose_name="Название блога", max_length=255)
     description = models.TextField(verbose_name="Описание")
     created_at = models.DateTimeField(verbose_name="Создан", auto_now_add=True)
