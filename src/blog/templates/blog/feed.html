@@ -1,0 +1,40 @@
+{% load blog_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed</title>
+</head>
+<body>
+<h1>Posts</h1>
+<ul style="list-style-type: none;">
+{% for post in object_list %}
+    <li style="margin-bottom: 10px">
+        <div style="width: 300px; min-height: 200px; border: solid 1px black; position: relative">
+            <div class="post-header">
+                <div style="float:left">{{ post.blog }}</div>
+                <div style="float:right">{{ post.created_at|date }}</div>
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.text }}</p>
+
+            <div class="post-foother" style="position: absolute; bottom: 1px; right: 1px">
+                {% post_is_read post as post_read %}
+                {% if not post_read %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <button type="submit" class="">Отметить как прочитанный</button>
+                    </form>
+                {% else %}
+                    прочитан
+                {% endif %}
+            </div>
+        </div>
+
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
+</body>
+</html>
