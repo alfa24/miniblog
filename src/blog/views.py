@@ -16,6 +16,7 @@ class UserAuthenticatedMixin(LoginRequiredMixin):
         return context
 
 
+# создание нового поста
 class PostCreateView(UserAuthenticatedMixin, CreateView):
     user = None
     model = Post
@@ -35,6 +36,7 @@ class PostCreateView(UserAuthenticatedMixin, CreateView):
         return form
 
 
+# лента новостей пользователя
 class PostListView(UserAuthenticatedMixin, ListView):
     model = Post
     ordering = ['-created_at']
@@ -50,6 +52,7 @@ class PostListView(UserAuthenticatedMixin, ListView):
         return super().get(request, *args, **kwargs)
 
 
+# список всех блогов
 class BlogListView(UserAuthenticatedMixin, ListView):
     model = Blog
     ordering = ['-created_at']
