@@ -12,11 +12,9 @@ ENV DOCKYARD_SRVHOME=/srv
 ENV DOCKYARD_SRVPROJ=$DOCKYARD_SRVHOME/$DOCKYARD_SRC
 
 WORKDIR $DOCKYARD_SRVHOME
-#RUN mkdir media static logs
 RUN mkdir static
 #read
 VOLUME ["$DOCKYARD_SRVPROJ/static/"]
-#VOLUME ["$DOCKYARD_SRVHOME/media/", "$DOCKYARD_SRVHOME/logs/", "$DOCKYARD_SRVPROJ/static/"]
 
 # Update the default application repository sources list
 RUN apt-get update && apt-get -y upgrade
@@ -44,4 +42,3 @@ COPY ./config/nginx/conf.d/django_nginx.conf /etc/nginx/sites-available/
 RUN ln -s /etc/nginx/sites-available/django_nginx.conf /etc/nginx/sites-enabled/
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm /etc/nginx/sites-enabled/default
-#ENTRYPOINT ["/docker-entrypoint.sh"]
