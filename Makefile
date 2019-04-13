@@ -15,7 +15,7 @@ init_venv:
 
 .PHONY : pip
 pip:
-	$(VENV) pip install -r $(ROOT_DIR)/requirements.txt
+	$(VENV) pip install -r $(SOURCE_DIR)/requirements.txt
 
 .PHONY : test
 test:
