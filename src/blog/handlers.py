@@ -14,10 +14,11 @@ def post_create_handler(sender, instance, created, **kwargs):
         if not users.exists():
             return
 
-        theme = "{} разместил новый пост".format(instance.blog.author.username)
-        message = instance.title
-        mails = list(users.values_list('email', flat=True))
-        send_mail_task(theme=theme, message=message, mails=mails)
+        data = {'theme': "{} разместил новый пост".format(instance.blog.author.username),
+                'message': instance.title,
+                "mails": list(users.values_list('email', flat=True))
+                }
+        send_mail_task.apply_async([data])
 
 
 post_save.connect(post_create_handler, sender=Post)
