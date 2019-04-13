@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 from .tasks import send_mail_task
-from .models import Post, UserSubscribe
+from .models import Post, UserSubscribe, Blog
 
 
 def post_create_handler(sender, instance, created, **kwargs):
@@ -21,3 +21,10 @@ def post_create_handler(sender, instance, created, **kwargs):
 
 post_save.connect(post_create_handler, sender=Post)
 
+
+def new_user_handler(sender, instance, created, **kwargs):
+    if created:
+        Blog.objects.create(author=instance, name="Блог {}".format(instance), description="Это новый блог")
+
+
+post_save.connect(new_user_handler, sender=User)
