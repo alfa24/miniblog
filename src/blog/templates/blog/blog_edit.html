@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block title %}Создать пост{% endblock %}
 {% block body %}
+    <h1>Настройки вашего блога</h1>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
