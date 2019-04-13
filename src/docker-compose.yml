@@ -37,10 +37,10 @@ services:
   db:
     image: postgres:10
     volumes:
-      - ./storage/pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
       - ./pg-init:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
 
-#volumes:
-#  ./storage/pgdata:
+volumes:
+  pgdata:
