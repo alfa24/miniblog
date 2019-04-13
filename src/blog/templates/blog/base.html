@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div style="width: 100%">
+    <a href="{% url 'post_create' %}" style="margin: 20px">Создать пост</a>
+    <a href="{% url 'feed' %}" style="margin: 20px">Лента новостей</a>
+    <a href="{% url 'blogs' %}" style="margin: 20px">Блоги</a>
+</div>
+{% block body %}
+{% endblock %}
+</body>
+</html>

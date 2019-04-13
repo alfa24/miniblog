@@ -1,11 +1,7 @@
+{% extends 'blog/base.html' %}
 {% load blog_extras %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Блоги</title>
-</head>
-<body>
+{% block title %}Блоги{% endblock %}
+{% block body %}
 <h1>Блоги</h1>
 <ul style="list-style-type: none;">
     {% for blog in object_list %}
@@ -39,5 +35,4 @@
         <li>No articles yet.</li>
     {% endfor %}
 </ul>
-</body>
-</html>
+{% endblock %}
