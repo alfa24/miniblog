@@ -51,6 +51,12 @@ class PostListView(UserAuthenticatedMixin, ListView):
 
         return super().get(request, *args, **kwargs)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        blog_ids = list(UserSubscribe.objects.filter(user=self.user).values_list('blog__id', flat=True))
+        qs = qs.filter(blog_id__in=blog_ids)
+        return qs
+
 
 # список всех блогов
 class BlogListView(UserAuthenticatedMixin, ListView):
