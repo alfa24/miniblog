@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 from .tasks import send_mail_task
-from .models import Post, UserSubscribe, Blog
+from .models import Post, UserSubscribe, Blog, PostRead
 
 
 def post_create_handler(sender, instance, created, **kwargs):
@@ -28,3 +28,17 @@ def new_user_handler(sender, instance, created, **kwargs):
 
 
 post_save.connect(new_user_handler, sender=User)
+
+
+def user_unsubscribe_handler(sender, instance, **kwargs):
+    """При отписке удаляет статус прочтения постов"""
+
+    user = instance.user
+    blog = instance.blog
+
+    PostRead.objects.filter(user=user, post__blog=blog).delete()
+
+
+post_delete.connect(user_unsubscribe_handler, sender=UserSubscribe)
+
+
