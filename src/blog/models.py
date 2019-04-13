@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Blog(models.Model):
@@ -8,6 +9,9 @@ class Blog(models.Model):
     description = models.TextField(verbose_name="Описание")
     created_at = models.DateTimeField(verbose_name="Создан", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="Изменен", auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('blog_edit')
 
     def __str__(self):
         return "{}".format(self.name)

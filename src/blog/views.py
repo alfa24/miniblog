@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from .models import Post, Blog, PostRead, UserSubscribe
 
@@ -81,6 +81,17 @@ class BlogListView(UserAuthenticatedMixin, ListView):
         qs = super().get_queryset()
         qs = qs.exclude(author=self.user)
         return qs
+
+
+# редактирование блога
+class BlogEditView(UserAuthenticatedMixin, UpdateView):
+    model = Blog
+    fields = ['name', 'description']
+    template_name = "blog/blog_edit.html"
+
+    def get_object(self, queryset=None):
+        return self.user.blog
+
 
 
 
