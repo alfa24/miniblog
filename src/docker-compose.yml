@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  djangoapp:
+    build: .
+    # environment:
+    #   - DJANGO_SETTINGS_MODULE=connect.settings_dev
+    entrypoint: /docker-django-entrypoint.sh
+    volumes:
+      - ./storage/logs/django:/srv/code/django_app/logs
+      - ./storage/logs/nginx:/var/log/nginx
+      - ./storage/logs/gunicorm:/srv/logs
+      - ./storage/media:/srv/media
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:  # <-- wait for db to be "ready" before starting the app
+      - db
+      - redis
+
+  celery:
+    build: .
+    entrypoint: /docker-celery-entrypoint.sh
+    volumes:
+      - ./storage/logs/django:/srv/code/django_app/logs
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis
+    volumes:
+      - ./storage/redis/data:/data
+#    ports:
+#      - "6379:6379"
+
+  db:
+    image: postgres:10
+    volumes:
+      - ./storage/pgdata:/var/lib/postgresql/data
+      - ./pg-init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+
+#volumes:
+#  ./storage/pgdata:
