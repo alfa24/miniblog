@@ -2,3 +2,4 @@
 .idea
 /src/db.sqlite3
 /staticfiles/
+/src/storage/
