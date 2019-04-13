@@ -6,6 +6,7 @@ from .models import Post, UserSubscribe, Blog, PostRead
 
 
 def post_create_handler(sender, instance, created, **kwargs):
+    """При создании поста удаляет уведомление на почту подписчикам блога"""
     if created:
         user_ids = list(UserSubscribe.objects.filter(blog=instance.blog).values_list('user_id', flat=True))
         users = User.objects.filter(pk__in=user_ids)
@@ -23,6 +24,7 @@ post_save.connect(post_create_handler, sender=Post)
 
 
 def new_user_handler(sender, instance, created, **kwargs):
+    """При регистрации пользователя создаем ему блог"""
     if created:
         Blog.objects.create(author=instance, name="Блог {}".format(instance), description="Это новый блог")
 
